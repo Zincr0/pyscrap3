@@ -12,7 +12,8 @@ donde retornará una serie de Items o ListItems.
 Cada Item o ListItem tendrá una función que se definirá
 en pipeline.py con el objeto de procesar o almacenar dichos items.
 
-La clase heredada de pyscrap3.Spider no necesita pipeline.py obligatoriamente para funcionar. No existen
+La el archivo donde se ubica la clase heredada de pyscrap3.Spider
+no necesita pipeline.py obligatoriamente para funcionar. No existen
 import explicitos de un archivo al otro para el desarrollador
 de modo que ambas capas están, a la vista del programador, separadas.
 
