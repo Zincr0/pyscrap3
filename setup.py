@@ -24,7 +24,7 @@ def read(fname):
 setup(
     scripts=["bin/wscrap3"],
     name="pyscrap3",
-    version="0.0.2",
+    version="0.0.3",
     author="Daniel Mondaca",
     author_email="daniel@analitic.cl",
     description=("micro framework for web scraping"),
