@@ -6,10 +6,12 @@ proyectos hechos en python3 separando en dos capas el manejo de la información
 la de capa de almacenamiento definida en pipeline.py-. 
 
 Toda clase en el proyecto que herede de pyscrap3.Spider tendrá una función/generador 'parse()'
-donde retornará una serie de Items o ListItems y cada uno de ellos tendrá una función que se definirá
+donde retornará una serie de Items o ListItems.
+
+Cada Item o ListItem tendrá una función que se definirá
 en pipeline.py con el objeto de procesar o almacenar dichos items.
 
-La clase heredada de puscrap3.Spider no necesita pipeline.py obligatoriamente para funcionar. No existen
+La clase heredada de pyscrap3.Spider no necesita pipeline.py obligatoriamente para funcionar. No existen
 import explicitos de un archivo al otro para el desarrollador
 de modo que ambas capas están, a la vista del programador, separadas.
 
