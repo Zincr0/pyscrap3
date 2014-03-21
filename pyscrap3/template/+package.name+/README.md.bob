@@ -1,0 +1,15 @@
+{{{package.description}}}
+
+INSTALL
+=======
+
+::
+
+    $ pip install {{{package.name}}}
+
+USAGE
+=====
+
+...
+
+

@@ -1,0 +1,4 @@
+include README.txt
+recursive-include wscrap3 *.py
+recursive-include pyscrap3 *
+graft bin
