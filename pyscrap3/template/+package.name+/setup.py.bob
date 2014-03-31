@@ -12,12 +12,16 @@ def read(*rnames):
 
 setup(
     name = '{{{package.name}}}',
-    version = '{{{package.version}}}.dev0',
+    version = '{{{package.version}}}',
     description = '{{{package.description}}}',
     long_description = read('README.rst') +
                        read('HISTORY.rst') +
                        read('LICENSE'),
     classifiers = [
+        "Development Status :: 4 - Beta",
+        "Topic :: Software Development",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 3",
     ],
     author = '{{{author.name}}}',
