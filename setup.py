@@ -22,7 +22,7 @@ def read(fname):
 setup(
     scripts=["bin/wscrap3", "bin/wscrap3.3"],
     name="pyscrap3",
-    version="0.0.5",
+    version="0.0.6",
     author="Daniel Mondaca",
     author_email="daniel@analitic.cl",
     description=("micro framework for web scraping"),
@@ -31,7 +31,7 @@ setup(
     url = "https://github.com/Zincr0/pyscrap3",
     include_package_data = True,
     packages = find_packages('.'),
-    install_requires = ["mr.bob", "distribute"],
+    install_requires = ["mr.bob"],
     long_description=read("README.txt"),
     zip_safe=False,
     classifiers=[
