@@ -1,4 +1,8 @@
 include README.txt
 recursive-include wscrap3 *.py
 recursive-include pyscrap3 *
+recursive-include pyscrap3/template *
+recursive-include pyscrap3/template/+package.name+ *.bob
+recursive-include pyscrap3/template/+package.name+/+package.name+ *.py
+recursive-include pyscrap3/templateUtils *.py
 graft bin

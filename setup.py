@@ -13,28 +13,27 @@
 #limitations under the License.
 import os
 from setuptools import setup
-
-
-files = ["pyscrap3/*", "static/*", "template/*"]
+from setuptools import find_packages
 
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    scripts=["bin/wscrap3"],
+    scripts=["bin/wscrap3", "bin/wscrap3.3"],
     name="pyscrap3",
-    version="0.0.3",
+    version="0.0.4",
     author="Daniel Mondaca",
     author_email="daniel@analitic.cl",
     description=("micro framework for web scraping"),
     license = "Apache 2.0 License",
     keywords = "web scraping",
     url = "https://github.com/Zincr0/pyscrap3",
-    packages=["pyscrap3"],
-    install_requires = ["mr.bob"],
+    include_package_data = True,
+    packages = find_packages('.'),
+    install_requires = ["mr.bob", "distribute"],
     long_description=read("README.txt"),
-    package_data = {"package": files},
+    zip_safe=False,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Topic :: Software Development",
