@@ -11,8 +11,10 @@
 #WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #See the License for the specific language governing permissions and
 #limitations under the License.
-#from IPython import embed
+from IPython import embed
 import logging
+import inspect
+import importlib
 
 
 def getEmptyPipes():
@@ -37,20 +39,42 @@ def emptyGetSearchData(*args, **kwargs):
 class Spider():
     """Esta clase enlaza las funcines getUrls y getSearchData
     definidas en pipeline.py a las funciones propias getUrls y getSearchData.
-    Procesar todos los items que retorne la función 'parse' mediante la función 'start'."""
+    Procesa todos los items que retorne la función 'parse' mediante la función 'start'."""
     def __init__(self):
+        #embed()
         self.pipelineUrls = emptyGetUrls
         self.pipelineSearchData = emptyGetSearchData
+        pipeline = None
         try:
-            from pipeline import getUrls
-            self.pipelineUrls = getUrls
+            #try:
+            #    print("1")
+            #    from .pipeline import getUrls
+            #    self.pipelineUrls = getUrls
+            #except:
+            try:
+                #print("2")
+                from pipeline import getUrls
+                self.pipelineUrls = getUrls
+            except:
+                #print("3")
+                subpackage = inspect.getmodule(self.parse).__package__
+                pipeline = importlib.import_module('.pipeline', subpackage)
+                self.pipelineUrls = pipeline.getUrls
         except:
             logging.warning("getUrls not defined in pipeline.py")
-        try:
-            from pipeline import getSearchData
-            self.pipelineSearchData = getSearchData
-        except:
-            logging.warning("getSearchData not defined in pipeline.py")
+
+        if pipeline:
+            self.pipelineSearchData = pipeline.getSearchData
+        else:
+            try:
+                #try:
+                #    from .pipeline import getSearchData
+                #    self.pipelineSearchData = getSearchData
+                #except:
+                from pipeline import getSearchData
+                self.pipelineSearchData = getSearchData
+            except:
+                logging.warning("getSearchData not defined in pipeline.py")
 
     def start(self, *args, **kwargs):
         """Ejecuta la función/generador 'parse' y por cada
@@ -121,12 +145,19 @@ class ItemList(list):
         self.__fields__ = {}
         pipes = getEmptyPipes()
         self.__pipelineFunction__ = lambda *args, **kwargs: None
+
         try:
-            from pipeline import getPipes
-            pipes = getPipes()
+            try:
+                from pipeline import getPipes
+                pipes = getPipes()
+            except:
+                #print("3")
+                subpackage = inspect.getmodule(self.parse).__package__
+                pipeline = importlib.import_module('.pipeline', subpackage)
+                pipes = pipeline.getPipes
         except:
             logging.warning("getPipes not defined in pipeline.py")
-        #embed()
+
         className = self.__class__.__name__
         self.__pipelineFunction__ = pipes["itemLists"].get(className)
         #self.__funciones__
@@ -192,12 +223,19 @@ class Item():
         self.__fields__ = {}
         pipes = getEmptyPipes()
         self.__pipelineFunction__ = lambda *args, **kwargs: None
+
         try:
-            from pipeline import getPipes
-            pipes = getPipes()
+            try:
+                from pipeline import getPipes
+                pipes = getPipes()
+            except:
+                #print("3")
+                subpackage = inspect.getmodule(self.parse).__package__
+                pipeline = importlib.import_module('.pipeline', subpackage)
+                pipes = pipeline.getPipes
         except:
             logging.warning("getPipes not defined in pipeline.py")
-        #embed()
+
         className = self.__class__.__name__
         self.__pipelineFunction__ = pipes["items"].get(className)
         #self.__funciones__
