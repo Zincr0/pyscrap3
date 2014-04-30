@@ -56,15 +56,18 @@ class Spider():
                 from pipeline import getUrls
                 self.pipelineUrls = getUrls
             except ImportError as e:
-                if e.msg == "No module named 'pipeline'":
+                if e.msg == "No module named 'pipeline'" or e.msg == "cannot import name getUrls":
                     #print("3")
                     subpackage = inspect.getmodule(self.parse).__package__
-                    pipeline = importlib.import_module('.pipeline', subpackage)
-                    self.pipelineUrls = pipeline.getUrls
+                    try:
+                        pipeline = importlib.import_module('.pipeline', subpackage)
+                        self.pipelineUrls = pipeline.getUrls
+                    except TypeError as e:
+                        logging.warning("getUrls not defined in pipeline.py")
                 else:
                     raise
         except ImportError as e:
-            if e.msg == "No module named 'pipeline'":
+            if e.msg == "No module named 'pipeline'" or e.msg == "cannot import name getUrls":
                 logging.warning("getUrls not defined in pipeline.py")
             else:
                 raise
@@ -79,8 +82,11 @@ class Spider():
                 #except:
                 from pipeline import getSearchData
                 self.pipelineSearchData = getSearchData
-            except:
-                logging.warning("getSearchData not defined in pipeline.py")
+            except ImportError as e:
+                if e.msg == "cannot import name getSearchData":
+                    logging.warning("getSearchData not defined in pipeline.py")
+                else:
+                    raise
 
     def start(self, *args, **kwargs):
         """Ejecuta la función/generador 'parse' y por cada
