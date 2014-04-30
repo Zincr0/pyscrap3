@@ -55,13 +55,19 @@ class Spider():
                 #print("2")
                 from pipeline import getUrls
                 self.pipelineUrls = getUrls
-            except:
-                #print("3")
-                subpackage = inspect.getmodule(self.parse).__package__
-                pipeline = importlib.import_module('.pipeline', subpackage)
-                self.pipelineUrls = pipeline.getUrls
-        except:
-            logging.warning("getUrls not defined in pipeline.py")
+            except ImportError as e:
+                if e.msg == "No module named 'pipeline'":
+                    #print("3")
+                    subpackage = inspect.getmodule(self.parse).__package__
+                    pipeline = importlib.import_module('.pipeline', subpackage)
+                    self.pipelineUrls = pipeline.getUrls
+                else:
+                    raise
+        except ImportError as e:
+            if e.msg == "No module named 'pipeline'":
+                logging.warning("getUrls not defined in pipeline.py")
+            else:
+                raise
 
         if pipeline:
             self.pipelineSearchData = pipeline.getSearchData
