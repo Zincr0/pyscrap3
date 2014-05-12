@@ -11,7 +11,7 @@
 #WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #See the License for the specific language governing permissions and
 #limitations under the License.
-#from IPython import embed
+from IPython import embed
 import logging
 import inspect
 import importlib
@@ -95,20 +95,13 @@ class Spider():
         Si se retorna un iterable, se intentará ejecutar la función __parseItem__
         de cada objeto que retorne dicho iterable."""
         for dataItem in self.parse(*args, **kwargs):
-            try:
-                #Si no existe se disparará el error
-                dataItem.__parseItem__
-            except AttributeError:
-                #Puede que sea un iterable
-                try:
-                    for item in dataItem:
-                        dataItem.__parseItem__()
-                except:
-                    pass
-            try:
+            if hasattr(dataItem, "__parseItem__"):
                 dataItem.__parseItem__()
-            except:
-                pass
+            elif isinstance(dataItem, (list, tuple)):
+                for item in dataItem:
+                    if hasattr(dataItem, "__parseItem__"):
+                        dataItem.__parseItem__()
+
 
     def getUrls(self, *args, **kwargs):
         """Ejecuta la función/generador 'getUrls' que el usuario haya
