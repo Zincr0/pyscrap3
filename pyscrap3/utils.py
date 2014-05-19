@@ -28,5 +28,14 @@ class rabbitMsg():
         message.ack()
         return result
 
+    def getIfExists(self):
+        message = self.cola.queue.get()
+        if message:
+            result = message.payload
+            message.ack()
+            return result
+        else:
+            return None
+
     def close(self):
         self.cola.close()
